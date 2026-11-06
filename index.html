@@ -1,12 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="style.css">
   <meta charset="UTF-8">
-  <title>My Bookstore</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maktabatul Ilm | Islamic & Arabic Books</title>
+  <meta name="description" content="An independent bookstore for Qur'an, hadith, fiqh, seerah and Arabic language books.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Welcomeeeeeeeee to my bookstore</h1>
-  <p>Coming soon.</p>
+  <header class="site-header">
+    <a class="brand" href="#top">Maktabatul Ilm</a>
+    <nav aria-label="Main">
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#delivery">Delivery</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="cart-btn" id="open-cart" aria-label="Open basket">Basket (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="hero-ar" lang="ar" dir="rtl">مكتبة العلم</p>
+      <h1>Books for seekers of knowledge</h1>
+      <p class="hero-sub">Qur'an, hadith, fiqh, seerah and Arabic language, chosen with care and sent to your door.</p>
+      <a class="btn" href="#shop">Browse the shelves</a>
+    </section>
+
+    <section id="shop" class="section">
+      <h2>The shelves</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section id="about" class="section about">
+      <h2>About the shop</h2>
+      <p>Maktabatul Ilm began with a simple idea: good books should be easy to find and fairly priced. We stock new and secondhand titles in Arabic and English, from first-year Arabic grammar to classical texts with commentary.</p>
+      <p>Every book is checked before it is packed. If something is not as described, we will put it right.</p>
+    </section>
+
+    <section id="delivery" class="section split">
+      <div>
+        <h2>Delivery</h2>
+        <p>Orders are posted by Royal Mail within two working days. Most books arrive in two to four days. Delivery rates are shown at checkout.</p>
+      </div>
+      <div>
+        <h2>Returns</h2>
+        <p>Changed your mind? You have 14 days from delivery to return a book in the condition you received it.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="section about">
+      <h2>Contact</h2>
+      <p>Questions about a title or an order? Email <a href="mailto:hello@example.com">hello@example.com</a>. We reply within one working day.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p lang="ar" dir="rtl" class="foot-ar">وقل رب زدني علما</p>
+    <p>&copy; <span id="year"></span> Maktabatul Ilm. All rights reserved.</p>
+    <p><a href="#">Privacy</a> &nbsp; <a href="#">Terms</a> &nbsp; <a href="#">Returns policy</a></p>
+  </footer>
+
+  <dialog id="cart" aria-labelledby="cart-title">
+    <div class="cart-head">
+      <h2 id="cart-title">Your basket</h2>
+      <button class="link-btn" id="close-cart">Close</button>
+    </div>
+    <ul id="cart-items"></ul>
+    <p class="cart-total">Total: <strong id="cart-total">£0.00</strong></p>
+    <button class="btn" id="checkout" disabled>Checkout opens soon</button>
+  </dialog>
+
+  <script src="books.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
