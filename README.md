@@ -16,3 +16,6 @@ Open `index.html` in your browser.
 - [ ] Stripe Checkout and webhooks
 - [ ] Domain connected
 - [ ] Privacy, terms and returns pages
+
+## Cover images
+Run `python download_images.py` once. It saves every book cover into `images/`.
