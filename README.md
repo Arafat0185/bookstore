@@ -1,21 +1,24 @@
 # Maktabatul Ilm
 
-A custom online Islamic & Arabic bookstore built with HTML, CSS and JavaScript, hosted on Cloudflare Pages.
+A custom online bookstore built with HTML, CSS and JavaScript, hosted on Cloudflare Pages.
 
-## Run locally
-Open `index.html` in your browser.
+## Pages
+- `index.html` – home
+- `shop.html` – all books, search and filters
+- `book.html?id=5` – one page per book (chosen by the id in the address)
+- `basket.html` – the basket
+- `about.html`, `delivery.html`, `privacy.html`, `terms.html`
 
-## Files
-- `index.html` – page structure
-- `style.css` – design (brown/amber vintage theme)
-- `books.js` – book data (placeholder for now)
-- `script.js` – shop filters and basket
-
-## Roadmap
-- [ ] Real books and cover photos
-- [ ] Stripe Checkout and webhooks
-- [ ] Domain connected
-- [ ] Privacy, terms and returns pages
+## Code
+- `style.css` – the design
+- `books.js` – the book data
+- `shared.js` – header, footer, basket and book cards used on every page
+- `home.js`, `shop.js`, `book.js`, `basket.js` – code for one page each
 
 ## Cover images
-Run `python download_images.py` once. It saves every book cover into `images/`.
+Run `python download_images.py` once to save the covers into `images/`.
+
+## Roadmap
+- [ ] Stripe Checkout and webhooks
+- [ ] Domain connected
+- [ ] Finish and check the policy pages

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop | Maktabatul Ilm</title>
+  <meta name="description" content="Browse all books by subject, or search by title.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="page">
+    <div class="page-head"><h1>The shelves</h1><p class="count" id="count"></p></div>
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="Search by title or keyword" aria-label="Search books">
+      <label><input type="checkbox" id="stock-only"> In stock only</label>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filter by subject"></div>
+    <div class="grid" id="grid"><p class="status">Loading books… If this message stays, check that <strong>books.js</strong> and <strong>shared.js</strong> are in the same folder as the page.</p></div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="books.js"></script>
+  <script src="shared.js"></script>
+  <script src="shop.js"></script>
+</body>
+</html>
