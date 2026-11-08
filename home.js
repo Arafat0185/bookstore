@@ -1,7 +1,4 @@
-// Home page: featured books and category tiles
-const featured = BOOKS.filter(b => b.stock > 0).slice(0, 4);
-document.getElementById("featured").innerHTML = featured.map(bookCard).join("");
-
+// Home page: subject tiles
 const counts = {};
 BOOKS.forEach(b => { counts[b.category] = (counts[b.category] || 0) + 1; });
 const cats = Object.keys(counts).filter(c => c !== "Other").sort((a, b) => counts[b] - counts[a]);
