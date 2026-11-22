@@ -210,32 +210,7 @@ document.querySelectorAll(".spines .spine").forEach((el, i) => fxWatch(el, Math.
   new MutationObserver(() => stampWatch(document)).observe(document.body, { childList: true, subtree: true });
 })();
 
-// ----- 10. Pages and motes drift down the site, at different depths -----
-(function () {
-  if (RM) return;
-  const layer = document.createElement("div");
-  layer.className = "drift"; layer.setAttribute("aria-hidden", "true");
-  const small = innerWidth < 720;
-  const rnd = (a, b) => a + Math.random() * (b - a);
-  let html = "";
-  for (let i = 0; i < (small ? 5 : 9); i++) {
-    const depth = rnd(0, 1);   // 0 = far (small, blurry, slow), 1 = near
-    html += `<i style="--x:${rnd(0, 96).toFixed(1)}%;--w:${(14 + depth * 26).toFixed(0)}px;--o:${(.14 + depth * .22).toFixed(2)};--b:${((1 - depth) * 2.2).toFixed(1)}px;--dur:${(34 - depth * 16).toFixed(0)}s;--dl:${(-rnd(0, 34)).toFixed(0)}s;--dx:${rnd(-14, 14).toFixed(0)}vw;--r0:${rnd(-40, 40).toFixed(0)}deg;--r1:${rnd(200, 420).toFixed(0)}deg;--k:${(.04 + depth * .16).toFixed(2)}"></i>`;
-  }
-  for (let i = 0; i < (small ? 7 : 14); i++) {
-    const depth = rnd(0, 1);
-    html += `<i class="m" style="--x:${rnd(0, 100).toFixed(1)}%;--w:${(2 + depth * 3).toFixed(1)}px;--o:${(.2 + depth * .35).toFixed(2)};--b:${((1 - depth) * 1.2).toFixed(1)}px;--dur:${(40 - depth * 22).toFixed(0)}s;--dl:${(-rnd(0, 40)).toFixed(0)}s;--dx:${rnd(-8, 8).toFixed(0)}vw;--k:${(.02 + depth * .1).toFixed(2)}"></i>`;
-  }
-  layer.innerHTML = html;
-  document.body.appendChild(layer);
-  let ticking = false;
-  addEventListener("scroll", () => {
-    if (ticking) return; ticking = true;
-    requestAnimationFrame(() => { layer.style.setProperty("--sy", scrollY); ticking = false; });
-  }, { passive: true });
-})();
-
-// ----- 11. The pinned book: pages turn as you scroll -----
+// ----- 10. The pinned book: pages turn as you scroll -----
 (function () {
   const wrap = document.getElementById("story");
   if (!wrap || RM) return;

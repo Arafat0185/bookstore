@@ -4,7 +4,7 @@ A custom online Islamic and Arabic bookstore, built from scratch with plain HTML
 
 **Live site:** https://maktabatul-ilm.com
 
-Dusty old library: matte browns, aged paper and brass, with parchment for anything you read closely.
+Rustic and minimal: bare wood, matte browns, aged paper and brass, with parchment for anything you read closely.
 
 ## What it does
 
@@ -18,9 +18,9 @@ Dusty old library: matte browns, aged paper and brass, with parchment for anythi
 
 ## The look and feel
 
-The design is a dusty old library: matte browns, aged paper, grain and cobwebs, with no glowing lights.
+The design is rustic and minimal: bare wood planks, matte browns and aged paper, with no glow or sparkle.
 
-- **Pinned 3D hero:** layered bookshelves, an arch with the shop name, and a candle. The layers move at different speeds with the mouse, and the camera pushes in as you scroll
+- **Pinned hero:** a hand-painted wooden shop sign swinging over bare plank walls, with two shelves of book spines. The sign drifts up and the shelves slide sideways as you scroll
 - **Page-turn transition:** a page of the book turns over between pages
 - **Subjects as book spines** that slide out of the shelf one by one. Hover a spine and its cover flips open above it
 - **A pinned open book:** scroll and its pages turn, telling "Find it, Hold it, Read it, Pass it on"
@@ -29,7 +29,6 @@ The design is a dusty old library: matte browns, aged paper, grain and cobwebs, 
 - **Gold ink lines** that draw themselves under headings
 - **Covers that drop onto the plank** and wobble into place on the shop page
 - **Stamped marks:** "SOLD" on sold-out books and "LAST COPY" on one-off books
-- **Drifting pages and dust** floating down every page at different depths
 - **Book covers tilt** towards the pointer
 
 Accessibility and performance:
@@ -43,7 +42,7 @@ Accessibility and performance:
 - HTML, CSS and vanilla JavaScript (no frameworks, no build step)
 - Hosted free on [Cloudflare Pages](https://pages.cloudflare.com/), deployed automatically from this repo on every push
 - [Google Fonts](https://fonts.google.com/): IM Fell English (headings), Lora (body) and Mirza (Arabic)
-- Hero artwork is generated SVG, so there are no photos and no licensing worries
+- Hero shelves are generated SVG (`images/shelf-front.svg`, `shelf-back.svg`), so there are no photos and no licensing worries
 - Payments will use [Stripe Checkout](https://stripe.com/gb/payments/checkout) (not connected yet)
 
 ## Pages
@@ -72,13 +71,13 @@ Every page loads its scripts in this order, because each one depends on the one 
 | `style.css` | The whole design. Colours, fonts and textures are variables at the top (`--night`, `--brass`, `--ember` and so on) |
 | `books.js` | The catalogue as data. Change a book here and it changes everywhere |
 | `shared.js` | Header, footer, basket functions (saved in `localStorage`) and the book card layout |
-| `fx.js` | Hero parallax, hadith reveal, cover tilt, page turn, scroll reveals (spines, scrolls, seals, ink lines, dropping covers), pinned book, drifting pages |
+| `fx.js` | Hero parallax, hadith reveal, cover tilt, page turn, scroll reveals (spines, scrolls, seals, ink lines, dropping covers), pinned book |
 | `home.js` | Subject spines (with the flip-open cover) and the book of the week |
 | `shop.js` | Search, subject filters and the in-stock checkbox |
 | `book.js` | Builds a single book page and its related books |
 | `basket.js` | Shows the basket and lets customers remove items |
 | `download_images.py` | One-off script that saves the book covers from Shopify into `images/` |
-| `images/` | Logo, hero artwork (`hero-far.svg`, `hero-mid.svg`, `hero-near.svg`) and book covers |
+| `images/` | Logo, hero shelves (`shelf-front.svg`, `shelf-back.svg`) and book covers |
 
 ```
 bookstore/
@@ -89,7 +88,7 @@ bookstore/
 ├── download_images.py
 └── images/
     ├── logo.png
-    ├── hero-far.svg  hero-mid.svg  hero-near.svg
+    ├── shelf-front.svg  shelf-back.svg
     └── book-1.webp ... book-59.png
 ```
 
@@ -128,8 +127,8 @@ To choose the book of the week yourself, open `home.js` and set `BOOK_OF_THE_WEE
 ## Change the look
 
 - **Colours:** edit the variables at the top of `style.css`
-- **Hero artwork:** the three layers in `images/` are plain SVG files. Replace them with your own, or a photo
-- **Turn an effect off:** remove its numbered section from `fx.js`. For example, delete section 5 to remove the page turn, or section 10 to remove the drifting pages
+- **Hero shelves:** the two shelf images in `images/` are plain SVG files. Replace them with your own, or a photo
+- **Turn an effect off:** remove its numbered section from `fx.js`. For example, delete section 5 to remove the page turn, or section 10 to remove the pinned book
 - **Hadith:** the quote is in `index.html` inside the `data-split` paragraph
 
 ## Book covers

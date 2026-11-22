@@ -105,55 +105,58 @@ body.home .site-header.solid { background: rgba(18, 11, 7, .92); border-bottom-c
 .link-btn { font: inherit; background: none; border: 0; color: var(--ember-deep); text-decoration: underline; cursor: pointer; }
 
 /* ==========================================================================
-   Home: the pinned hero
+   Home: the pinned hero. A hand-painted wooden shop sign over bare plank walls
    ========================================================================== */
-.hero-wrap { height: 200svh; position: relative; }
-.hero {
-  position: sticky; top: 0; height: 100svh; overflow: hidden; background: var(--night);
-  --p: 0; --mx: 0; --my: 0;
+.hero-wrap { height: 190svh; position: relative; }
+.hero { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #1d140d; --p: 0; --mx: 0; --my: 0; }
+.wall {
+  position: absolute; inset: -4%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 235, 200, .02) 0 1px, transparent 1px 11px),
+    repeating-linear-gradient(90deg, transparent 0 147px, rgba(0, 0, 0, .75) 147px 150px),
+    repeating-linear-gradient(90deg, #2c1f15 0 150px, #261a11 150px 300px, #302217 300px 450px);
+  transform: translate3d(calc(var(--mx) * -8px), calc(var(--p) * -40px), 0);
 }
-.layer {
-  position: absolute; inset: -5%; width: 110%; height: 110%; max-width: none; object-fit: cover; pointer-events: none;
-  will-change: transform;
-  transform: translate3d(calc(var(--mx) * var(--d) * -30px), calc(var(--my) * var(--d) * -18px - var(--p) * var(--d) * 70px), 0) scale(calc(1 + var(--p) * var(--d) * .5));
-}
-.layer.far { --d: .15; filter: sepia(.4) saturate(.6) brightness(.78) blur(2px); }
-.layer.mid { --d: .45; filter: sepia(.35) saturate(.65) brightness(.84); }
-.layer.near .glow { opacity: .14; animation: none; }
-.layer.near { --d: 1; inset: auto -5% -5% -5%; width: 110%; height: 105%; }
-.hero-glow { display: none;
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 38% 55% at 50% 52%, rgba(255, 170, 80, calc(.42 + var(--p) * .25)), rgba(224, 117, 42, .12) 55%, transparent 75%);
-  animation: lampFlicker 5s ease-in-out infinite alternate;
-}
-.beam { display: none;
-  position: absolute; inset: 0; pointer-events: none; opacity: .5;
-  background: linear-gradient(160deg, rgba(255, 190, 110, .35), rgba(255, 190, 110, 0) 70%);
-  clip-path: polygon(46% 0, 58% 0, 20% 100%, 0 100%);
-  animation: beamShimmer 7s ease-in-out infinite alternate;
-}
-.beam.b2 { clip-path: polygon(52% 0, 60% 0, 100% 100%, 82% 100%); opacity: .3; animation-delay: -3s; }
-.dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.arch {
-  position: absolute; left: 50%; bottom: 7%; width: min(34rem, 84vw, 57svh); aspect-ratio: 400 / 560;
-  transform: translate3d(calc(-50% + var(--mx) * -8px), calc(var(--p) * -50px), 0) scale(calc(1 + var(--p) * .3));
-  transform-origin: 50% 80%; container-type: inline-size;
-}
-.arch-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.hero-copy {
-  position: absolute; left: 50%; top: 39%; width: 86%; transform: translateX(-50%); text-align: center;
-  opacity: calc(1 - var(--p) * 1.7);
-}
-.hero-ar {
-  font-family: var(--f-ar); font-size: clamp(2.6rem, 6vw, 4.4rem); font-size: min(17cqw, 7rem); white-space: nowrap; line-height: 1.25; margin: 0; color: #e3cfa3;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, .75), 0 0 1px rgba(0,0,0,.6);
-}
-.hero-name { font-family: var(--f-display); font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-size: 5.6cqw; margin: .1rem 0 .3rem; color: var(--parchment); }
-.hero-tag { font-style: italic; color: var(--muted); font-size: .95rem; margin: 0 auto 1.1rem; }
-.scroll-cue { position: absolute; left: 50%; bottom: 2.2rem; width: 1px; height: 3.4rem; background: linear-gradient(var(--brass), transparent); opacity: calc(1 - var(--p) * 4); }
-.scroll-cue::after { content: ""; position: absolute; left: -2px; top: 0; width: 5px; height: 5px; border-radius: 50%; background: var(--brass-hi); animation: cue 2.2s ease-in infinite; }
-.hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 14%; background: linear-gradient(transparent, var(--night)); pointer-events: none; }
+.wall::after { content: ""; position: absolute; inset: 0; background: var(--paper-grain); opacity: .5; }
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 42%, transparent 35%, rgba(0, 0, 0, .65) 100%); }
 
+/* The sign */
+.sign-rig {
+  position: absolute; left: 50%; top: 4.2rem; width: min(33rem, 88vw); z-index: 2; container-type: inline-size;
+  transform: translate3d(-50%, calc(var(--p) * -70px), 0);
+  opacity: calc(1 - var(--p) * .7);
+}
+.sign-bar { height: 7px; width: 74%; margin: 0 auto; background: linear-gradient(#4a4540, #1a1815); border-radius: 4px; box-shadow: 0 3px 5px rgba(0, 0, 0, .6); }
+.sign-swing { transform-origin: 50% 0; rotate: calc(var(--mx) * 1.1deg); animation: swing 7s ease-in-out infinite alternate; }
+.ropes { display: flex; justify-content: space-between; padding: 0 17%; height: 2.6rem; }
+.ropes i { width: 4px; background: repeating-linear-gradient(135deg, #8a7550 0 2px, #5b4a30 2px 4px); }
+.board {
+  position: relative; padding: 7cqw 6cqw 6cqw; text-align: center; border-radius: 5px;
+  background:
+    radial-gradient(circle at 4% 7%, #1c130c 0 5px, transparent 6px), radial-gradient(circle at 96% 7%, #1c130c 0 5px, transparent 6px),
+    radial-gradient(circle at 4% 93%, #1c130c 0 5px, transparent 6px), radial-gradient(circle at 96% 93%, #1c130c 0 5px, transparent 6px),
+    var(--paper-grain),
+    repeating-linear-gradient(180deg, transparent 0 59px, rgba(0, 0, 0, .55) 59px 61px),
+    repeating-linear-gradient(180deg, #5f3f25 0 61px, #55371f 61px 122px);
+  border: 5px solid #34220f; box-shadow: 0 26px 40px -12px #000, inset 0 0 0 2px rgba(216, 200, 166, .12);
+}
+.board::before { content: ""; position: absolute; inset: 9px; border: 1.5px solid rgba(216, 200, 166, .4); border-radius: 2px; pointer-events: none; }
+.hero-ar { font-family: var(--f-ar); font-size: min(17cqw, 11svh); white-space: nowrap; line-height: 1.25; margin: 0; color: #e0cfaa; text-shadow: 1px 2px 0 rgba(0, 0, 0, .55); }
+.hero-name { font-family: var(--f-display); font-size: 5.6cqw; letter-spacing: .04em; margin: .2rem 0 .1rem; color: #d8c8a6; }
+.hero-tag { font-style: italic; color: #b8a47c; font-size: clamp(.85rem, 3.2cqw, 1rem); margin: 0 0 1.1rem; }
+.board .btn { font-size: .95rem; }
+.scroll-cue { position: absolute; left: 50%; bottom: 1.4rem; z-index: 3; width: 1px; height: 2.6rem; background: linear-gradient(var(--brass), transparent); opacity: calc(1 - var(--p) * 4); }
+
+/* Two shelves of plain book spines that slide sideways as you scroll */
+.shelf {
+  position: absolute; left: -2%; right: -2%; bottom: var(--b); height: calc(var(--h) + 18px);
+  background-repeat: repeat-x; background-size: auto var(--h); background-position: calc(var(--p) * var(--sp) * 1px + var(--mx) * var(--md) * 1px) 0;
+}
+.shelf::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18px; background: linear-gradient(#6b4a2c, #4a3019 40%, #2a1b0e); box-shadow: 0 -2px 6px rgba(0, 0, 0, .5); }
+.shelf-front { --b: 0px; --h: 14svh; --sp: -380; --md: -26; background-image: url(images/shelf-front.svg); }
+.shelf-back { --b: calc(14svh + 18px + 2svh); --h: 10svh; --sp: 240; --md: -12; background-image: url(images/shelf-back.svg); filter: brightness(.62); }
+
+@keyframes swing { from { transform: rotate(-1.1deg); } to { transform: rotate(1.1deg); } }
 @keyframes lampFlicker { 0% { opacity: .88; } 22% { opacity: 1; } 41% { opacity: .92; } 63% { opacity: 1; } 100% { opacity: .9; } }
 @keyframes beamShimmer { from { opacity: .35; } to { opacity: .6; } }
 @keyframes cue { from { transform: translateY(0); opacity: 1; } to { transform: translateY(3.2rem); opacity: 0; } }
@@ -321,8 +324,7 @@ body.home .site-header.solid { background: rgba(18, 11, 7, .92); border-bottom-c
   .site-header nav { order: 5; width: 100%; justify-content: space-between; gap: .8rem; font-size: .95rem; }
   .brand { font-size: 1.35rem; }
   .hero-wrap { height: 170svh; }
-  .arch { bottom: 9%; width: min(88vw, 52svh); }
-  .hero-copy { top: 38%; }
+  .sign-rig { top: 6.6rem; }
   .filler { display: none; }
   .spotlight { grid-template-columns: 1fr; gap: 2rem; }
   .spot-cover { max-width: 16rem; }
@@ -344,10 +346,8 @@ body.home .site-header.solid { background: rgba(18, 11, 7, .92); border-bottom-c
   .drift, #peek, .rod { display: none !important; }
   .hero-wrap { height: auto; }
   .hero { position: relative; height: 100svh; }
-  .layer, .arch { transform: none !important; }
-  .arch { transform: translateX(-50%) !important; }
-  .hero-copy, .scroll-cue { opacity: 1 !important; }
-  .flame, .glow, .hero-glow, .beam, .scroll-cue::after { animation: none; }
+  .sign-rig { transform: translateX(-50%) !important; opacity: 1 !important; }
+  .sign-swing { animation: none; rotate: none; }
   .photo, .cover, .spine { transition: none; transform: none !important; }
   .hadith .w { opacity: 1; }
 }
@@ -355,13 +355,6 @@ body.home .site-header.solid { background: rgba(18, 11, 7, .92); border-bottom-c
 /* ==========================================================================
    Dusty-library touches: cobwebs, drifting pages, ink lines, scrolls, seals
    ========================================================================== */
-.hero::after, .hadith::after, .site-footer::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg  fill='none' stroke='%23e6dcc6' stroke-width='.7' stroke-opacity='.55'%3E%3Cpath d='M0 0L200.0 0.0M0 0L193.2 51.8M0 0L173.2 100.0M0 0L141.4 141.4M0 0L100.0 173.2M0 0L51.8 193.2M0 0L0.0 200.0M40.0 0.0Q35.4 4.7 38.6 10.4M38.6 10.4Q33.0 13.7 34.6 20.0M34.6 20.0Q28.3 21.7 28.3 28.3M28.3 28.3Q21.7 28.3 20.0 34.6M20.0 34.6Q13.7 33.0 10.4 38.6M10.4 38.6Q4.7 35.4 0.0 40.0M76.0 0.0Q67.2 8.9 73.4 19.7M73.4 19.7Q62.7 26.0 65.8 38.0M65.8 38.0Q53.8 41.3 53.7 53.7M53.7 53.7Q41.3 53.8 38.0 65.8M38.0 65.8Q26.0 62.7 19.7 73.4M19.7 73.4Q8.9 67.2 0.0 76.0M116.0 0.0Q102.6 13.5 112.0 30.0M112.0 30.0Q95.6 39.6 100.5 58.0M100.5 58.0Q82.1 63.0 82.0 82.0M82.0 82.0Q63.0 82.1 58.0 100.5M58.0 100.5Q39.6 95.6 30.0 112.0M30.0 112.0Q13.5 102.6 0.0 116.0M160.0 0.0Q141.5 18.6 154.5 41.4M154.5 41.4Q131.9 54.6 138.6 80.0M138.6 80.0Q113.3 86.9 113.1 113.1M113.1 113.1Q86.9 113.3 80.0 138.6M80.0 138.6Q54.6 131.9 41.4 154.5M41.4 154.5Q18.6 141.5 0.0 160.0'/%3E%3C/g%3E%3C/svg%3E") left top / min(15rem, 38vw) no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg transform=%22scale%28-1 1%29 translate%28-200 0%29%22 fill='none' stroke='%23e6dcc6' stroke-width='.7' stroke-opacity='.55'%3E%3Cpath d='M0 0L200.0 0.0M0 0L193.2 51.8M0 0L173.2 100.0M0 0L141.4 141.4M0 0L100.0 173.2M0 0L51.8 193.2M0 0L0.0 200.0M40.0 0.0Q35.4 4.7 38.6 10.4M38.6 10.4Q33.0 13.7 34.6 20.0M34.6 20.0Q28.3 21.7 28.3 28.3M28.3 28.3Q21.7 28.3 20.0 34.6M20.0 34.6Q13.7 33.0 10.4 38.6M10.4 38.6Q4.7 35.4 0.0 40.0M76.0 0.0Q67.2 8.9 73.4 19.7M73.4 19.7Q62.7 26.0 65.8 38.0M65.8 38.0Q53.8 41.3 53.7 53.7M53.7 53.7Q41.3 53.8 38.0 65.8M38.0 65.8Q26.0 62.7 19.7 73.4M19.7 73.4Q8.9 67.2 0.0 76.0M116.0 0.0Q102.6 13.5 112.0 30.0M112.0 30.0Q95.6 39.6 100.5 58.0M100.5 58.0Q82.1 63.0 82.0 82.0M82.0 82.0Q63.0 82.1 58.0 100.5M58.0 100.5Q39.6 95.6 30.0 112.0M30.0 112.0Q13.5 102.6 0.0 116.0M160.0 0.0Q141.5 18.6 154.5 41.4M154.5 41.4Q131.9 54.6 138.6 80.0M138.6 80.0Q113.3 86.9 113.1 113.1M113.1 113.1Q86.9 113.3 80.0 138.6M80.0 138.6Q54.6 131.9 41.4 154.5M41.4 154.5Q18.6 141.5 0.0 160.0'/%3E%3C/g%3E%3C/svg%3E") right top / min(15rem, 38vw) no-repeat;
-  opacity: .5;
-}
-.hero::after { top: 3.5rem; }
-
 /* Pages and motes drifting down the whole site, at different depths */
 .drift { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
 .drift i {
