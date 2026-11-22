@@ -36,9 +36,9 @@ const clamp = (n, a = 0, b = 1) => Math.min(b, Math.max(a, n));
   sprite.width = sprite.height = 32;
   const sctx = sprite.getContext("2d");
   const g = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-  g.addColorStop(0, "rgba(255,225,170,1)");
-  g.addColorStop(.4, "rgba(255,190,110,.35)");
-  g.addColorStop(1, "rgba(255,190,110,0)");
+  g.addColorStop(0, "rgba(232,220,192,.9)");
+  g.addColorStop(.4, "rgba(220,205,170,.25)");
+  g.addColorStop(1, "rgba(220,205,170,0)");
   sctx.fillStyle = g; sctx.fillRect(0, 0, 32, 32);
 
   function resize() {
@@ -57,7 +57,7 @@ const clamp = (n, a = 0, b = 1) => Math.min(b, Math.max(a, n));
     if (!ctx) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    ctx.globalCompositeOperation = "lighter";
+    ctx.globalCompositeOperation = "source-over";
     for (const m of motes) {
       m.y -= m.vy; m.x += m.vx + Math.sin(t * .0006 + m.ph) * .12;
       if (m.y < -10) { m.y = H + 10; m.x = Math.random() * W; }
@@ -130,7 +130,7 @@ const clamp = (n, a = 0, b = 1) => Math.min(b, Math.max(a, n));
   }, { passive: true });
 })();
 
-// ----- 5. Page transition: the book covers close, the next page opens -----
+// ----- 5. Page transition: a page turns over, and the next page is revealed -----
 (function () {
   const root = document.documentElement;
   addEventListener("pageshow", e => { if (e.persisted) root.classList.remove("cv-leave"); });
@@ -145,74 +145,120 @@ const clamp = (n, a = 0, b = 1) => Math.min(b, Math.max(a, n));
     e.preventDefault();
     root.classList.remove("cv-intro", "cv-quick");
     root.classList.add("cv-leave");
-    setTimeout(() => { location.href = a.href; }, 380);
+    setTimeout(() => { location.href = a.href; }, 500);
   });
 })();
 
-// ----- 6. Optional room sound: a soft hush with the odd crackle. Off until you press the button. -----
+// The sound button was removed. Clear any old saved setting.
+try { localStorage.removeItem("sound"); } catch (e) { /* storage blocked */ }
+
+// ----- Helpers for the reveal effects below -----
+// Elements get "fx-pre" (hidden state) and then "fx-in" when they scroll into view.
+// If this file fails to run, nothing is hidden.
+const FXMAP = new Map();   // watched element -> the elements to reveal
+const FXIO = RM ? null : new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    FXIO.unobserve(en.target);
+    (FXMAP.get(en.target) || []).forEach(el => { el.classList.remove("fx-pre"); el.classList.add("fx-in"); });
+  });
+}, { threshold: 0, rootMargin: "0px 0px -6% 0px" });
+
+// "watchFor" lets us watch a different element than the one we reveal. A fully clipped
+// element (the unrolling scrolls) never counts as visible, so we watch its parent instead.
+function fxWatch(el, delay, watchFor) {
+  if (!FXIO || el.dataset.fx) return;
+  el.dataset.fx = "1";
+  if (delay) el.style.setProperty("--d", delay + "ms");
+  el.classList.add("fx-pre");
+  const target = watchFor || el;
+  if (!FXMAP.has(target)) { FXMAP.set(target, []); FXIO.observe(target); }
+  FXMAP.get(target).push(el);
+}
+
+// ----- 6. Gold ink lines draw themselves under headings -----
+document.querySelectorAll(".section h2, .page h1, .related-title, .story-title").forEach(h => { h.classList.add("ink"); fxWatch(h); });
+
+// ----- 7. Parchment unrolls like a scroll, and a wax seal is stamped on the cards -----
+const SEAL = '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 3c5 0 7 4 11 5s8-1 11 3-1 8 1 12 7 6 6 11-6 6-8 10-1 9-6 11-8-1-12 1-7 5-12 3-6-7-10-9-9-2-11-7 3-8 3-12-4-8-2-12 7-4 10-7 3-9 8-10 4-1 7-1z" fill="#7a2a1c"/><circle cx="32" cy="32" r="19" fill="none" stroke="#a8432e" stroke-width="2"/><path d="M32 17l3.6 9.6 10.2-.5-6.2 8.1 6.2 8.1-10.2-.5L32 51l-3.6-9.6-10.2.5 6.2-8.1-6.2-8.1 10.2.5z" fill="#a8432e" opacity=".85"/></svg>';
+document.querySelectorAll(".values .panel, .page.prose, #basket").forEach((el, i) => {
+  if (RM) return;
+  el.classList.add("unroll");
+  el.insertAdjacentHTML("afterbegin", '<span class="rod" aria-hidden="true"></span>');
+  if (el.closest(".values")) el.insertAdjacentHTML("beforeend", '<span class="seal" aria-hidden="true">' + SEAL + "</span>");
+  fxWatch(el, (i % 3) * 180, el.parentElement);
+});
+
+// ----- 8. Subject spines slide out of the shelf -----
+document.querySelectorAll(".spines .spine").forEach((el, i) => fxWatch(el, Math.min(i, 24) * 55));
+
+// ----- 9. Covers drop onto the plank and wobble into place (also for books added later by search or filters) -----
 (function () {
-  const header = document.querySelector(".site-header");
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!header || !AC) return;
+  if (RM) return;
+  const seen = new WeakSet();
+  function scan(root) {
+    const cards = [...root.querySelectorAll(".card")].filter(c => !seen.has(c));
+    cards.forEach((c, i) => { seen.add(c); fxWatch(c, (i % 4) * 120); });
+  }
+  document.querySelectorAll(".grid").forEach(g => {
+    scan(g);
+    new MutationObserver(() => scan(g)).observe(g, { childList: true });
+  });
+  // Stamps on the big book page and the book of the week
+  const stampWatch = root => root.querySelectorAll(".stamp").forEach(s => { const p = s.parentElement; if (p && !p.closest(".card")) fxWatch(p); });
+  stampWatch(document);
+  new MutationObserver(() => stampWatch(document)).observe(document.body, { childList: true, subtree: true });
+})();
 
-  const btn = document.createElement("button");
-  btn.className = "sound-btn";
-  btn.setAttribute("aria-label", "Room sound");
-  btn.setAttribute("aria-pressed", "false");
-  btn.title = "Room sound";
-  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path class="off-slash" d="M3 3l18 18"/></svg>';
-  header.insertBefore(btn, header.querySelector(".cart-btn"));
+// ----- 10. Pages and motes drift down the site, at different depths -----
+(function () {
+  if (RM) return;
+  const layer = document.createElement("div");
+  layer.className = "drift"; layer.setAttribute("aria-hidden", "true");
+  const small = innerWidth < 720;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  let html = "";
+  for (let i = 0; i < (small ? 5 : 9); i++) {
+    const depth = rnd(0, 1);   // 0 = far (small, blurry, slow), 1 = near
+    html += `<i style="--x:${rnd(0, 96).toFixed(1)}%;--w:${(14 + depth * 26).toFixed(0)}px;--o:${(.14 + depth * .22).toFixed(2)};--b:${((1 - depth) * 2.2).toFixed(1)}px;--dur:${(34 - depth * 16).toFixed(0)}s;--dl:${(-rnd(0, 34)).toFixed(0)}s;--dx:${rnd(-14, 14).toFixed(0)}vw;--r0:${rnd(-40, 40).toFixed(0)}deg;--r1:${rnd(200, 420).toFixed(0)}deg;--k:${(.04 + depth * .16).toFixed(2)}"></i>`;
+  }
+  for (let i = 0; i < (small ? 7 : 14); i++) {
+    const depth = rnd(0, 1);
+    html += `<i class="m" style="--x:${rnd(0, 100).toFixed(1)}%;--w:${(2 + depth * 3).toFixed(1)}px;--o:${(.2 + depth * .35).toFixed(2)};--b:${((1 - depth) * 1.2).toFixed(1)}px;--dur:${(40 - depth * 22).toFixed(0)}s;--dl:${(-rnd(0, 40)).toFixed(0)}s;--dx:${rnd(-8, 8).toFixed(0)}vw;--k:${(.02 + depth * .1).toFixed(2)}"></i>`;
+  }
+  layer.innerHTML = html;
+  document.body.appendChild(layer);
+  let ticking = false;
+  addEventListener("scroll", () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => { layer.style.setProperty("--sy", scrollY); ticking = false; });
+  }, { passive: true });
+})();
 
-  let ctx = null, master = null, timer = null, on = false;
-  function build() {
-    ctx = new AC();
-    master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
-    // warm room tone: brown noise through a low-pass filter
-    const len = ctx.sampleRate * 4, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
-    let last = 0;
-    for (let i = 0; i < len; i++) { last = (last + .02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
-    const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
-    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 420;
-    const bed = ctx.createGain(); bed.gain.value = .55;
-    src.connect(lp); lp.connect(bed); bed.connect(master); src.start();
-    // a faint low hum
-    const o = ctx.createOscillator(); o.frequency.value = 82; const og = ctx.createGain(); og.gain.value = .035;
-    o.connect(og); og.connect(master); o.start();
+// ----- 11. The pinned book: pages turn as you scroll -----
+(function () {
+  const wrap = document.getElementById("story");
+  if (!wrap || RM) return;
+  const book = wrap.querySelector(".bk-in");
+  const leaves = [...wrap.querySelectorAll(".leaf")];
+  const n = leaves.length;
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const r = wrap.getBoundingClientRect();
+    if (r.bottom < -200 || r.top > innerHeight + 200) return;
+    const range = wrap.offsetHeight - innerHeight;
+    const p = clamp(range > 0 ? -r.top / range : 0);
+    const u = clamp((p - .06) / .84) * n;
+    leaves.forEach((l, i) => {
+      const t = clamp(u - i);
+      l.style.setProperty("--e", (t * t * (3 - 2 * t)).toFixed(4));
+      l.style.setProperty("--z", ((t < .5 ? n - i : i) * .8).toFixed(1) + "px");
+    });
+    book.style.setProperty("--s", p.toFixed(3));
   }
-  function crackle() {
-    if (!on) return;
-    const n = ctx.sampleRate * .03, b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0);
-    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
-    const s = ctx.createBufferSource(); s.buffer = b;
-    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1800 + Math.random() * 2500;
-    const gn = ctx.createGain(); gn.gain.value = .05 + Math.random() * .12;
-    s.connect(bp); bp.connect(gn); gn.connect(master); s.start();
-    timer = setTimeout(crackle, 400 + Math.random() * 2600);
-  }
-  function set(next) {
-    on = next;
-    btn.setAttribute("aria-pressed", String(on));
-    try { localStorage.setItem("sound", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
-    if (on) {
-      if (!ctx) build();
-      ctx.resume();
-      master.gain.cancelScheduledValues(ctx.currentTime);
-      master.gain.linearRampToValueAtTime(.16, ctx.currentTime + 1.5);
-      crackle();
-    } else if (ctx) {
-      clearTimeout(timer);
-      master.gain.cancelScheduledValues(ctx.currentTime);
-      master.gain.linearRampToValueAtTime(0, ctx.currentTime + .6);
-    }
-  }
-  btn.addEventListener("click", () => set(!on));
-
-  // Browsers block sound until you interact, so if you had it on, it resumes on your first click or key press
-  let wanted = false;
-  try { wanted = localStorage.getItem("sound") === "on"; } catch (e) { /* storage blocked */ }
-  if (wanted) {
-    btn.setAttribute("aria-pressed", "true");
-    const resume = () => { removeEventListener("pointerdown", resume); removeEventListener("keydown", resume); if (!on) set(true); };
-    addEventListener("pointerdown", resume); addEventListener("keydown", resume);
-  }
+  const req = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  addEventListener("scroll", req, { passive: true });
+  addEventListener("resize", req);
+  update();
 })();

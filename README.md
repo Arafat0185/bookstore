@@ -4,7 +4,7 @@ A custom online Islamic and Arabic bookstore, built from scratch with plain HTML
 
 **Live site:** https://maktabatul-ilm.com
 
-The design is a candlelit library at night: walnut and leather, brass details, ember light, and aged parchment for anything you read closely.
+Dusty old library: matte browns, aged paper and brass, with parchment for anything you read closely.
 
 ## What it does
 
@@ -18,20 +18,25 @@ The design is a candlelit library at night: walnut and leather, brass details, e
 
 ## The look and feel
 
-- **Pinned 3D hero:** layered bookshelves, a glowing arch with the shop name, and a candle. The layers move at different speeds with the mouse, and the camera pushes in as you scroll
-- **Ambient atmosphere:** dust drifting through the light, a flickering candle and lamp, film grain and a vignette
-- **Subjects as book spines** on a wooden shelf, with the book of the week below
+The design is a dusty old library: matte browns, aged paper, grain and cobwebs, with no glowing lights.
+
+- **Pinned 3D hero:** layered bookshelves, an arch with the shop name, and a candle. The layers move at different speeds with the mouse, and the camera pushes in as you scroll
+- **Page-turn transition:** a page of the book turns over between pages
+- **Subjects as book spines** that slide out of the shelf one by one. Hover a spine and its cover flips open above it
+- **A pinned open book:** scroll and its pages turn, telling "Find it, Hold it, Read it, Pass it on"
 - **A hadith whose words light up** one by one as you scroll
-- **Book covers tilt** towards the pointer, and stand on a plank
-- **Page transitions:** a leather book cover closes and opens between pages
-- **Optional room sound:** a soft hush with the odd crackle, off until you press the speaker button
-- **Parchment panels** for the About, Delivery, Privacy, Terms and basket pages
+- **Parchment that unrolls like a scroll**, with a wax seal stamped on each "Why Maktabatul Ilm" card
+- **Gold ink lines** that draw themselves under headings
+- **Covers that drop onto the plank** and wobble into place on the shop page
+- **Stamped marks:** "SOLD" on sold-out books and "LAST COPY" on one-off books
+- **Drifting pages and dust** floating down every page at different depths
+- **Book covers tilt** towards the pointer
 
 Accessibility and performance:
 - Everything decorative is hidden from screen readers
-- If your device is set to "reduce motion", all movement and transitions are switched off and the page is static
-- The dust animation pauses when the hero is off screen or the tab is hidden, and uses fewer particles on phones
+- If your device is set to "reduce motion", all movement and transitions are switched off. The pinned book becomes a plain list
 - Effects are in one file (`fx.js`), so the shop still works if it fails
+- There is no sound
 
 ## Built with
 
@@ -67,8 +72,8 @@ Every page loads its scripts in this order, because each one depends on the one 
 | `style.css` | The whole design. Colours, fonts and textures are variables at the top (`--night`, `--brass`, `--ember` and so on) |
 | `books.js` | The catalogue as data. Change a book here and it changes everywhere |
 | `shared.js` | Header, footer, basket functions (saved in `localStorage`) and the book card layout |
-| `fx.js` | Hero parallax, dust, hadith reveal, cover tilt, page transitions, room sound |
-| `home.js` | Subject spines and the book of the week |
+| `fx.js` | Hero parallax, hadith reveal, cover tilt, page turn, scroll reveals (spines, scrolls, seals, ink lines, dropping covers), pinned book, drifting pages |
+| `home.js` | Subject spines (with the flip-open cover) and the book of the week |
 | `shop.js` | Search, subject filters and the in-stock checkbox |
 | `book.js` | Builds a single book page and its related books |
 | `basket.js` | Shows the basket and lets customers remove items |
@@ -124,7 +129,7 @@ To choose the book of the week yourself, open `home.js` and set `BOOK_OF_THE_WEE
 
 - **Colours:** edit the variables at the top of `style.css`
 - **Hero artwork:** the three layers in `images/` are plain SVG files. Replace them with your own, or a photo
-- **Turn an effect off:** remove its section from `fx.js`. For example, delete section 5 to remove the page transition, or section 6 to remove the room sound
+- **Turn an effect off:** remove its numbered section from `fx.js`. For example, delete section 5 to remove the page turn, or section 10 to remove the drifting pages
 - **Hadith:** the quote is in `index.html` inside the `data-split` paragraph
 
 ## Book covers

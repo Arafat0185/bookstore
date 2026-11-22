@@ -13,7 +13,7 @@ const SPINE_HEIGHTS = [15, 12.5, 14, 11.5, 15.5, 13];   // rem, so the shelf loo
 
 document.getElementById("spines").innerHTML =
   `<a class="spine all" style="--h:15.5rem" href="shop.html"><b>All books</b><small>${BOOKS.length}</small></a>` +
-  cats.map((c, i) => `<a class="spine" style="--h:${SPINE_HEIGHTS[i % SPINE_HEIGHTS.length]}rem; --c:${SPINE_COLOURS[i % SPINE_COLOURS.length]}" href="shop.html?cat=${encodeURIComponent(c)}"><b>${esc(c)}</b><small>${counts[c]}</small></a>`).join("") +
+  cats.map((c, i) => `<a class="spine" data-cat="${esc(c)}" style="--h:${SPINE_HEIGHTS[i % SPINE_HEIGHTS.length]}rem; --c:${SPINE_COLOURS[i % SPINE_COLOURS.length]}" href="shop.html?cat=${encodeURIComponent(c)}"><b>${esc(c)}</b><small>${counts[c]}</small></a>`).join("") +
   // Plain spines to fill out the shelf. They are decoration only.
   Array.from({ length: 18 }, (_, i) => `<div class="spine filler" aria-hidden="true" style="--h:${10 + (i * 7) % 6}rem; --w:${2.2 + (i * 5) % 3 * .5}rem; --c:${SPINE_COLOURS[(i * 3 + 1) % SPINE_COLOURS.length]}"></div>`).join("");
 
@@ -42,3 +42,31 @@ if (pick) {
 } else {
   document.getElementById("spotlight").remove();
 }
+
+// ----- Peek: hover (or focus) a spine and its cover flips open above it -----
+(function () {
+  if (!matchMedia("(hover: hover) and (pointer: fine)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const peek = document.createElement("div");
+  peek.id = "peek"; peek.setAttribute("aria-hidden", "true");
+  document.body.appendChild(peek);
+  const coverFor = cat => {
+    const list = BOOKS.filter(b => b.category === cat && b.image);
+    return list.find(b => b.stock > 0) || list[0];
+  };
+  const show = el => {
+    const b = coverFor(el.dataset.cat);
+    if (!b) return;
+    peek.innerHTML = `<img src="${esc(b.image)}" alt="">`;
+    const r = el.getBoundingClientRect(), w = peek.offsetWidth, hgt = peek.offsetHeight;
+    peek.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + "px";
+    peek.style.top = Math.max(70, r.top - hgt - 28) + "px";
+    peek.classList.add("on");
+  };
+  const hide = () => peek.classList.remove("on");
+  document.querySelectorAll(".spine[data-cat]").forEach(el => {
+    el.addEventListener("pointerenter", () => show(el));
+    el.addEventListener("pointerleave", hide);
+    el.addEventListener("focus", () => show(el));
+    el.addEventListener("blur", hide);
+  });
+})();

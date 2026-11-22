@@ -38,12 +38,15 @@ function updateCount() {
 }
 
 // ----- Pieces of HTML used on several pages -----
+function stamp(b) {
+  return b.stock < 1 ? '<i class="stamp sold">Sold</i>' : b.stock === 1 ? '<i class="stamp last">Last copy</i>' : "";
+}
 function fallbackCover(b) {
-  return `<div class="cover" style="--c:${COLOURS[b.id % COLOURS.length]}"><span>${esc(b.title)}</span></div>`;
+  return `<div class="cover" style="--c:${COLOURS[b.id % COLOURS.length]}"><span class="ttl">${esc(b.title)}</span>${stamp(b)}</div>`;
 }
 function coverHTML(b) {
   if (!b.image) return fallbackCover(b);
-  return `<div class="photo"><img src="${esc(b.image)}" alt="Cover of ${esc(b.title)}" loading="lazy" data-id="${b.id}"></div>`;
+  return `<div class="photo"><img src="${esc(b.image)}" alt="Cover of ${esc(b.title)}" loading="lazy" data-id="${b.id}">${stamp(b)}</div>`;
 }
 function addButton(b) {
   const full = (getCart()[b.id] || 0) >= b.stock;
