@@ -154,12 +154,12 @@ Wait a minute or two, then hard refresh the live site (Ctrl+Shift+R on Windows, 
 - [x] Connect the custom domain
 - [x] Move email to free forwarding
 - [ ] Replace the [bracketed] placeholders in the delivery, privacy and terms pages, and have them checked
-- [ ] Replace the placeholder contact email in `about.html`
+- [x] Contact email set to info@maktabatul-ilm.com
 - [ ] Check prices and stock against the real shelves (the data came from an older export)
 - [ ] Review the auto-assigned categories and add authors
 - [ ] Add Stripe Checkout, with a serverless function and webhook to mark one-off books as sold
 - [ ] Add shipping costs
-- [ ] Add a favicon, share previews, a sitemap and `robots.txt`
+- [x] Favicon, share previews, sitemap and `robots.txt` added
 - [ ] Give each book its own static page for better search engine visibility
 
 ## Notes
