@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#120b07">
   <title>Shop | Maktabatul Ilm</title>
   <meta name="description" content="Browse all books by subject, or search by title.">
+  <script>(function(){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var d=document.documentElement;d.classList.add('cv-intro');if(sessionStorage.getItem('seen'))d.classList.add('cv-quick');sessionStorage.setItem('seen','1')}catch(e){}})()</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Mirza:wght@400;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Lora:wght@400;500;600&family=Mirza:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,7 +18,7 @@
   <main class="page">
     <div class="page-head"><h1>The shelves</h1><p class="count" id="count"></p></div>
     <div class="toolbar">
-      <input type="search" id="search" placeholder="Search by title or keyword" aria-label="Search books">
+      <input type="search" id="search" placeholder="Search books" aria-label="Search books">
       <label><input type="checkbox" id="stock-only"> In stock only</label>
     </div>
     <div class="filters" id="filters" role="group" aria-label="Filter by subject"></div>
@@ -26,5 +28,6 @@
   <script src="books.js"></script>
   <script src="shared.js"></script>
   <script src="shop.js"></script>
+  <script src="fx.js"></script>
 </body>
 </html>
