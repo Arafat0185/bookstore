@@ -18,31 +18,22 @@ Rustic and minimal: bare wood, matte browns, aged paper and brass, with parchmen
 
 ## The look and feel
 
-The design is rustic and minimal: bare wood planks, matte browns and aged paper, with no glow or sparkle.
+A clean, warm bookshop in the style of a normal online store: cream paper, dark brown, one burnt-orange button colour.
 
-- **Pinned hero:** a hand-painted wooden shop sign swinging over bare plank walls, with two shelves of book spines. The sign drifts up and the shelves slide sideways as you scroll
-- **Page-turn transition:** a page of the book turns over between pages
-- **Subjects as book spines** that slide out of the shelf one by one. Hover a spine and its cover flips open above it
-- **A pinned open book:** scroll and its pages turn, telling "Find it, Hold it, Read it, Pass it on"
-- **A hadith whose words light up** one by one as you scroll
-- **Parchment that unrolls like a scroll**, with a wax seal stamped on each "Why Maktabatul Ilm" card
-- **Gold ink lines** that draw themselves under headings
-- **Covers that drop onto the plank** and wobble into place on the shop page
-- **Stamped marks:** "SOLD" on sold-out books and "LAST COPY" on one-off books
-- **Book covers tilt** towards the pointer
-
-Accessibility and performance:
-- Everything decorative is hidden from screen readers
-- If your device is set to "reduce motion", all movement and transitions are switched off. The pinned book becomes a plain list
+- Top announcement bar, then a header with a search box, the basket and a row of subject links
+- Home page: a hero with fanned book covers, three "why shop here" points, subject tiles, featured books, a quote, and a short about section
+- Book cards show the cover, English and Arabic titles, price and an add-to-basket button, with "Last copy" and "Sold out" labels
+- Four-column footer with shop, information and contact links
+- Light scroll movement only: sections and books fade up as they appear, the hero covers drift at different speeds, and the quote lights up word by word
+- If your device is set to "reduce motion", the movement is switched off
 - Effects are in one file (`fx.js`), so the shop still works if it fails
-- There is no sound
 
 ## Built with
 
 - HTML, CSS and vanilla JavaScript (no frameworks, no build step)
 - Hosted free on [Cloudflare Pages](https://pages.cloudflare.com/), deployed automatically from this repo on every push
-- [Google Fonts](https://fonts.google.com/): IM Fell English (headings), Lora (body) and Mirza (Arabic)
-- Hero shelves are generated SVG (`images/shelf-front.svg`, `shelf-back.svg`), so there are no photos and no licensing worries
+- [Google Fonts](https://fonts.google.com/): Libre Baskerville (headings), Source Sans 3 (body) and Mirza (Arabic)
+- There are no stock photos; the hero uses your own book covers
 - Payments will use [Stripe Checkout](https://stripe.com/gb/payments/checkout) (not connected yet)
 
 ## Pages
@@ -70,14 +61,14 @@ Every page loads its scripts in this order, because each one depends on the one 
 |---|---|
 | `style.css` | The whole design. Colours, fonts and textures are variables at the top (`--night`, `--brass`, `--ember` and so on) |
 | `books.js` | The catalogue as data. Change a book here and it changes everywhere |
-| `shared.js` | Header, footer, basket functions (saved in `localStorage`) and the book card layout |
-| `fx.js` | Hero parallax, hadith reveal, cover tilt, page turn, scroll reveals (spines, scrolls, seals, ink lines, dropping covers), pinned book |
-| `home.js` | Subject spines (with the flip-open cover) and the book of the week |
+| `shared.js` | Header (with search and subject links), footer, basket functions (saved in `localStorage`) and the book card layout |
+| `fx.js` | Header shadow, fade-up on scroll, hero cover drift, quote highlight |
+| `home.js` | Hero covers, subject tiles and featured books |
 | `shop.js` | Search, subject filters and the in-stock checkbox |
 | `book.js` | Builds a single book page and its related books |
 | `basket.js` | Shows the basket and lets customers remove items |
 | `download_images.py` | One-off script that saves the book covers from Shopify into `images/` |
-| `images/` | Logo, hero shelves (`shelf-front.svg`, `shelf-back.svg`) and book covers |
+| `images/` | Logo, favicon and book covers |
 
 ```
 bookstore/
@@ -88,7 +79,7 @@ bookstore/
 ├── download_images.py
 └── images/
     ├── logo.png
-    ├── shelf-front.svg  shelf-back.svg
+    ├── favicon.svg
     └── book-1.webp ... book-59.png
 ```
 
@@ -122,13 +113,13 @@ Each book in `books.js` looks like this:
 - `category` creates the subject filter and the home page spines automatically
 - Covers are 1200 x 1500 pixels (4:5). Save new ones in `images/` and point `image` at them
 
-To choose the book of the week yourself, open `home.js` and set `BOOK_OF_THE_WEEK_ID` to a book's id.
+The home page picks featured books automatically. To choose them yourself, edit `home.js`.
 
 ## Change the look
 
 - **Colours:** edit the variables at the top of `style.css`
-- **Hero shelves:** the two shelf images in `images/` are plain SVG files. Replace them with your own, or a photo
-- **Turn an effect off:** remove its numbered section from `fx.js`. For example, delete section 5 to remove the page turn, or section 10 to remove the pinned book
+- **Hero covers:** they are picked automatically from your in-stock books
+- **Turn an effect off:** remove its numbered section from `fx.js`
 - **Hadith:** the quote is in `index.html` inside the `data-split` paragraph
 
 ## Book covers

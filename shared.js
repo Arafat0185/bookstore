@@ -4,6 +4,7 @@
 const money = n => "£" + n.toFixed(2);
 const esc = t => String(t).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
 const COLOURS = ["#5a3a26", "#7a4a22", "#3f2a1d", "#8a3f1a", "#4b3321", "#6b4a2b"];
+const TILE_COLOURS = ["#4a2f1c", "#6b3b24", "#3d4a35", "#7a5a2a", "#5b2a24", "#3b3f4a"];
 const byId = id => (typeof BOOKS === "undefined" ? null : BOOKS.find(b => b.id === Number(id)));
 
 // ----- Basket: saved in the browser (localStorage) so it survives page changes -----
@@ -39,7 +40,7 @@ function updateCount() {
 
 // ----- Pieces of HTML used on several pages -----
 function stamp(b) {
-  return b.stock < 1 ? '<i class="stamp sold">Sold</i>' : b.stock === 1 ? '<i class="stamp last">Last copy</i>' : "";
+  return b.stock < 1 ? '<i class="stamp sold">Sold out</i>' : b.stock === 1 ? '<i class="stamp last">Last copy</i>' : "";
 }
 function fallbackCover(b) {
   return `<div class="cover" style="--c:${COLOURS[b.id % COLOURS.length]}"><span class="ttl">${esc(b.title)}</span>${stamp(b)}</div>`;
@@ -65,24 +66,41 @@ function bookCard(b) {
 }
 
 // ----- Header and footer (written once here, shown on every page) -----
-const NAV = [["shop", "Shop"], ["about", "About"], ["delivery", "Delivery & returns"]];
 const here = location.pathname.split("/").pop().replace(".html", "") || "index";
+const CATS = typeof BOOKS === "undefined" ? [] : [...new Set(BOOKS.map(b => b.category))].filter(c => c !== "Other");
+const urlCat = new URLSearchParams(location.search).get("cat");
 
 document.getElementById("site-header").outerHTML = `
+  <div class="announce">Islamic &amp; Arabic books &nbsp;·&nbsp; Posted by Royal Mail</div>
   <header class="site-header">
-    <a class="brand" href="index.html"><img src="images/logo.png" alt="" class="logo" onerror="this.remove()">Maktabatul Ilm</a>
-    <nav aria-label="Main">
-      ${NAV.map(([key, label]) => `<a href="${key}.html" class="${here === key || (key === "shop" && here === "book") ? "active" : ""}">${label}</a>`).join("")}
-    </nav>
-    <a class="cart-btn" href="basket.html">Basket (<span id="cart-count">0</span>)</a>
+    <div class="bar">
+      <a class="brand" href="index.html"><img src="images/logo.png" alt="" class="logo" onerror="this.remove()">Maktabatul Ilm</a>
+      <form class="hsearch" action="shop.html" role="search">
+        <input type="search" name="q" placeholder="Search books" aria-label="Search books">
+        <button type="submit">Search</button>
+      </form>
+      <a class="cart-btn" href="basket.html">Basket (<span id="cart-count">0</span>)</a>
+    </div>
+    <nav class="catnav" aria-label="Main"><div class="in">
+      <a href="shop.html" class="${here === "shop" && !urlCat ? "active" : ""}">All books</a>
+      ${CATS.map(c => `<a href="shop.html?cat=${encodeURIComponent(c)}" class="${here === "shop" && urlCat === c ? "active" : ""}">${esc(c)}</a>`).join("")}
+      <a class="sp ${here === "about" ? "active" : ""}" href="about.html">About</a>
+      <a href="delivery.html" class="${here === "delivery" ? "active" : ""}">Delivery &amp; returns</a>
+    </div></nav>
   </header>`;
 
 document.getElementById("site-footer").outerHTML = `
   <footer class="site-footer">
-    <p lang="ar" dir="rtl" class="foot-ar">وقل رب زدني علما</p>
-    <p class="social"><a href="https://www.instagram.com/maktabatul_ilm">Instagram</a> &nbsp; <a href="https://www.tiktok.com/@maktabatulilm">TikTok</a> &nbsp; <a href="https://chat.whatsapp.com/LgUagiQaG9V6Nr91ijIy6c?mode=wwc">WhatsApp</a></p>
-    <p><a href="privacy.html">Privacy</a> &nbsp; <a href="terms.html">Terms</a> &nbsp; <a href="delivery.html">Delivery & returns</a></p>
-    <p>&copy; ${new Date().getFullYear()} Maktabatul Ilm. All rights reserved.</p>
+    <div class="cols">
+      <div>
+        <p lang="ar" dir="rtl" class="foot-ar">وقل رب زدني علما</p>
+        <p><strong style="color:#f1e3c4">Maktabatul Ilm</strong><br>Islamic and Arabic books, checked and posted with care.</p>
+      </div>
+      <div><h4>Shop</h4><a href="shop.html">All books</a>${CATS.map(c => `<a href="shop.html?cat=${encodeURIComponent(c)}">${esc(c)}</a>`).join("")}</div>
+      <div><h4>Information</h4><a href="about.html">About us</a><a href="delivery.html">Delivery &amp; returns</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      <div><h4>Contact</h4><a href="mailto:info@maktabatul-ilm.com">info@maktabatul-ilm.com</a><a href="https://www.instagram.com/maktabatul_ilm">Instagram</a><a href="https://www.tiktok.com/@maktabatulilm">TikTok</a><a href="https://chat.whatsapp.com/LgUagiQaG9V6Nr91ijIy6c?mode=wwc">WhatsApp</a></div>
+    </div>
+    <div class="legal">&copy; ${new Date().getFullYear()} Maktabatul Ilm. All rights reserved.</div>
   </footer>`;
 
 updateCount();

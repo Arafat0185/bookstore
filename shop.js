@@ -33,5 +33,6 @@ filters.addEventListener("click", e => {
 search.addEventListener("input", render);
 stockOnly.addEventListener("change", render);
 
+search.value = new URLSearchParams(location.search).get("q") || "";
 renderFilters();
 render();
