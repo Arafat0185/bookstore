@@ -39,15 +39,14 @@ document.querySelectorAll(".section-head, .ledger a, .usps .wrap > div, .split >
   document.querySelectorAll(".grid").forEach(g => { scan(g); new MutationObserver(() => scan(g)).observe(g, { childList: true }); });
 })();
 
-// ----- 3. Hero covers drift at different speeds as you scroll -----
+// ----- 3. The hero wood and verse drift at different speeds as you scroll -----
 (function () {
-  const box = document.getElementById("hero-books");
   const hero = document.querySelector(".hero3");
-  if (!box || RM) return;
+  if (!hero || RM) return;
   let ticking = false;
   addEventListener("scroll", () => {
     if (ticking) return; ticking = true;
-    requestAnimationFrame(() => { const y = Math.min(scrollY, 700); box.style.setProperty("--sy", y); if (hero) hero.style.setProperty("--sy", y); ticking = false; });
+    requestAnimationFrame(() => { const y = Math.min(scrollY, 700); hero.style.setProperty("--sy", y); ticking = false; });
   }, { passive: true });
 })();
 
@@ -69,4 +68,17 @@ document.querySelectorAll(".section-head, .ledger a, .usps .wrap > div, .split >
   }
   addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   update();
+})();
+
+// ----- 5. The catalogue card tilts a little towards the pointer -----
+(function () {
+  const hero = document.querySelector(".hero3"), card = document.querySelector(".catcard");
+  if (!hero || !card || RM || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  hero.addEventListener("pointermove", e => {
+    const r = hero.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    card.style.setProperty("--ry", (x * 7).toFixed(2) + "deg");
+    card.style.setProperty("--rx", (-y * 6).toFixed(2) + "deg");
+  });
+  hero.addEventListener("pointerleave", () => { card.style.setProperty("--rx", "0deg"); card.style.setProperty("--ry", "0deg"); });
 })();

@@ -18,13 +18,13 @@ Rustic and minimal: bare wood, matte browns, aged paper and brass, with parchmen
 
 ## The look and feel
 
-An old library at night: dark walnut, leather and aged paper, with one orange. The textures (wood grain, leather, paper) are drawn by the browser, so there are no image files to load.
+An old library at night: warm walnut, leather and aged paper, with one orange. The textures (wood grain, leather, paper) are drawn by the browser, so there are no image files to load.
 
 - Header on a walnut strip with a search box, the basket and subject links
-- Home page: a hero with your covers standing on a wooden shelf, a subject index laid out like a library catalogue, featured books, a quote on leather, and a cream "bookplate" with how it works
+- Home page: a hero with the verse "Wa qul rabbi zidni ilma" (Ta-Ha 20:114) on wood planks, a subject index laid out like a library catalogue, featured books, a quote on leather, and a cream "bookplate" with how it works
 - Book cards with covers, English and Arabic titles, price in orange, and "Last copy" or "Sold out" labels
 - Pages you read (About, Delivery, Privacy, Terms, the basket) sit on aged paper
-- Movement: the headline slides up line by line, the books stand up onto the shelf, the wood and covers drift at different speeds as you scroll, index lines draw themselves, cards fade up, and the quote lights up word by word
+- Movement: the verse fades in word by word, and the wood and verse drift at different speeds as you scroll, index lines draw themselves, cards fade up, and the quote lights up word by word
 - Pages cross-fade when you move between them (in browsers that support it)
 - If your device is set to "reduce motion", the movement is switched off
 - Effects are in one file (`fx.js`), so the shop still works if it fails
@@ -33,7 +33,7 @@ An old library at night: dark walnut, leather and aged paper, with one orange. T
 
 - HTML, CSS and vanilla JavaScript (no frameworks, no build step)
 - Hosted free on [Cloudflare Pages](https://pages.cloudflare.com/), deployed automatically from this repo on every push
-- [Google Fonts](https://fonts.google.com/): Libre Caslon Text (headings), Source Sans 3 (body) and Mirza (Arabic)
+- [Google Fonts](https://fonts.google.com/): Source Serif 4 (headings), Source Sans 3 (body) and Noto Naskh Arabic (Arabic)
 - There are no stock photos; the hero uses your own book covers
 - Payments will use [Stripe Checkout](https://stripe.com/gb/payments/checkout) (not connected yet)
 
@@ -119,7 +119,7 @@ The home page picks featured books automatically. To choose them yourself, edit 
 ## Change the look
 
 - **Colours:** edit the variables at the top of `style.css`
-- **Hero covers:** they are picked automatically from your in-stock books
+- **Hero verse:** edit the Arabic and English text in `index.html`, inside the `hero3` section
 - **Turn an effect off:** remove its numbered section from `fx.js`
 - **Hadith:** the quote is in `index.html` inside the `data-split` paragraph
 

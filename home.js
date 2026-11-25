@@ -1,15 +1,14 @@
+// Hero: three real covers on a shelf (Explanation of Kitab at-Tawheed, Qawa'id Fiqhiyyah summary, The Disease and the Cure)
+const heroBox = document.getElementById("hero-books");
+if (heroBox) {
+  heroBox.innerHTML = [7, 5, 39].map(id => BOOKS.find(b => b.id === id)).filter(Boolean)
+    .map(b => `<a class="hb" href="book.html?id=${b.id}" aria-label="${esc(b.title)}">${coverHTML(b)}</a>`).join("");
+}
+
 // Home page: hero covers, subject tiles and featured books
 const inStock = BOOKS.filter(b => b.stock > 0);
 const withImage = list => list.filter(b => b.image);
 const arabicFirst = list => [...list].sort((a, b) => (!!b.arabic) - (!!a.arabic));
-
-// Three covers fanned out in the hero
-const heroPick = arabicFirst(withImage(inStock)).slice(0, 3);
-const heroBox = document.getElementById("hero-books");
-if (heroBox) {
-  heroBox.innerHTML = (heroPick.length ? heroPick : arabicFirst(inStock).slice(0, 3))
-    .map(b => `<a class="hb" href="book.html?id=${b.id}" aria-label="${esc(b.title)}">${coverHTML(b)}</a>`).join("") + '<div class="plank"></div>';
-}
 
 // Subject index (like a library catalogue)
 const tiles = document.getElementById("tiles");
