@@ -80,19 +80,19 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 400; line-height: 1.2; mar
 .hero3 .cta { display: flex; gap: .8rem; flex-wrap: wrap; animation: fadeUp .9s ease .8s backwards; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } }
 /* Three real covers on a shelf */
-.hero-books { position: relative; height: 26rem; max-width: 36rem; width: 100%; justify-self: center; }
+.hero-books { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 1.6rem; height: 26rem; padding-bottom: 1.05rem; max-width: 38rem; width: 100%; justify-self: center; }
 .hero-books::after { content: ""; position: absolute; left: -4%; right: -4%; bottom: 0; height: 1.1rem; background: #6a4528 var(--tx-wood); border-top: 1px solid rgba(255, 225, 175, .35); box-shadow: 0 16px 22px rgba(10, 5, 2, .7); }
-.hero-books .hb { position: absolute; bottom: 1.05rem; width: 33%; aspect-ratio: 2 / 3; display: block; perspective: 1400px; animation: bookIn 1s cubic-bezier(.2, .7, .15, 1) backwards; transition: translate .35s ease; --d: 1.7rem; }
+.hero-books .hb { position: relative; display: block; flex: none; width: calc(var(--k) * 1%); aspect-ratio: var(--ar, .7); max-height: 25rem; perspective: 1400px; animation: bookIn 1s cubic-bezier(.2, .7, .15, 1) backwards; transition: translate .35s ease; --d: 1.5rem; --k: 31; }
 .hero-books .hb:hover { translate: 0 -12px; }
 .hero-books .hb:hover .bk { transform: rotateY(calc(var(--ry) * .4)); }
-.hero-books .hb:nth-child(1) { left: 4%; --ry: 30deg; animation-delay: .5s; z-index: 1; }
-.hero-books .hb:nth-child(2) { left: 35%; width: 37%; --ry: 24deg; --d: 2rem; z-index: 3; animation-delay: .7s; }
-.hero-books .hb:nth-child(3) { right: 3%; --ry: 18deg; animation-delay: .9s; z-index: 2; }
+.hero-books .hb:nth-child(1) { --ry: 22deg; --k: 31; animation-delay: .5s; }
+.hero-books .hb:nth-child(2) { --ry: 16deg; --k: 34; --d: 1.8rem; animation-delay: .7s; }
+.hero-books .hb:nth-child(3) { --ry: 10deg; --k: 31; animation-delay: .9s; }
 /* A real-looking hardback: cover, spine and page block are separate faces in 3D */
 .bk { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(var(--ry)); transition: transform .5s ease; }
 .bk > * { position: absolute; backface-visibility: hidden; }
 .bk-front { inset: 0; transform: translateZ(calc(var(--d) / 2)); overflow: hidden; border-radius: 2px 5px 5px 2px; background: #3a2a1d; }
-.bk-front img, .bk-front .cover { width: 100%; height: 100%; object-fit: cover; aspect-ratio: auto; border: 0; box-shadow: none; transform: scale(1.07); }
+.bk-front img, .bk-front .cover { width: 100%; height: 100%; object-fit: cover; aspect-ratio: auto; border: 0; box-shadow: none; }
 .bk-front::after { content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(90deg, rgba(20, 10, 4, .55) 0, rgba(255, 235, 200, .16) 2.5%, rgba(20, 10, 4, .3) 5%, transparent 11%, transparent 62%, rgba(20, 10, 4, .22) 100%),
               linear-gradient(115deg, rgba(255, 245, 225, .22) 0, transparent 38%, transparent 70%, rgba(0, 0, 0, .18)); }
@@ -221,7 +221,7 @@ h1, h2, h3 { font-family: var(--f-head); font-weight: 400; line-height: 1.2; mar
   .hsearch { order: 3; flex-basis: 100%; max-width: none; margin: 0; }
   .cart-btn { margin-left: auto; }
   .hero3 .wrap { grid-template-columns: 1fr; padding-top: 2rem; padding-bottom: 2.5rem; min-height: 0; gap: 1.5rem; }
-  .hero-books { height: 17rem; }
+  .hero-books { height: 15rem; gap: .9rem; }
   .usps .wrap { grid-template-columns: 1fr; gap: .8rem; }
   .split, .detail { grid-template-columns: 1fr; gap: 1.6rem; }
   .site-footer .cols { grid-template-columns: 1fr 1fr; }
