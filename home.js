@@ -2,7 +2,7 @@
 const heroBox = document.getElementById("hero-books");
 if (heroBox) {
   heroBox.innerHTML = [7, 5, 39].map(id => BOOKS.find(b => b.id === id)).filter(Boolean)
-    .map(b => `<a class="hb" href="book.html?id=${b.id}" aria-label="${esc(b.title)}">${coverHTML(b)}</a>`).join("");
+    .map(b => `<a class="hb" href="book.html?id=${b.id}" aria-label="${esc(b.title)}"><div class="bk"><div class="bk-front">${b.image ? `<img src="${esc(b.image)}" alt="Cover of ${esc(b.title)}">` : fallbackCover(b)}</div><div class="bk-spine"></div><div class="bk-pages"></div><div class="bk-back"></div></div><i class="bk-shadow"></i></a>`).join("");
 }
 
 // Home page: hero covers, subject tiles and featured books
