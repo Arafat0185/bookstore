@@ -29,7 +29,7 @@ function fxWatch(el, delay) {
   el.classList.add("fx-pre");
   FXIO.observe(el);
 }
-document.querySelectorAll(".section-head, .tile, .usps .wrap > div, .split > *, .page h1, .detail > *, .basket-list").forEach((el, i) => fxWatch(el, (i % 4) * 90));
+document.querySelectorAll(".section-head, .ledger a, .usps .wrap > div, .split > *, .page h1, .detail > *, .basket-list").forEach((el, i) => fxWatch(el, (i % 4) * 90));
 (function () {
   if (RM) return;
   const seen = new WeakSet();
@@ -42,11 +42,12 @@ document.querySelectorAll(".section-head, .tile, .usps .wrap > div, .split > *, 
 // ----- 3. Hero covers drift at different speeds as you scroll -----
 (function () {
   const box = document.getElementById("hero-books");
+  const hero = document.querySelector(".hero3");
   if (!box || RM) return;
   let ticking = false;
   addEventListener("scroll", () => {
     if (ticking) return; ticking = true;
-    requestAnimationFrame(() => { box.style.setProperty("--sy", Math.min(scrollY, 700)); ticking = false; });
+    requestAnimationFrame(() => { const y = Math.min(scrollY, 700); box.style.setProperty("--sy", y); if (hero) hero.style.setProperty("--sy", y); ticking = false; });
   }, { passive: true });
 })();
 

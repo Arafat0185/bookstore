@@ -18,13 +18,14 @@ Rustic and minimal: bare wood, matte browns, aged paper and brass, with parchmen
 
 ## The look and feel
 
-A clean, warm bookshop in the style of a normal online store: cream paper, dark brown, one burnt-orange button colour.
+An old library at night: dark walnut, leather and aged paper, with one orange. The textures (wood grain, leather, paper) are drawn by the browser, so there are no image files to load.
 
-- Top announcement bar, then a header with a search box, the basket and a row of subject links
-- Home page: a hero with fanned book covers, three "why shop here" points, subject tiles, featured books, a quote, and a short about section
-- Book cards show the cover, English and Arabic titles, price and an add-to-basket button, with "Last copy" and "Sold out" labels
-- Four-column footer with shop, information and contact links
-- Light scroll movement only: sections and books fade up as they appear, the hero covers drift at different speeds, and the quote lights up word by word
+- Header on a walnut strip with a search box, the basket and subject links
+- Home page: a hero with your covers standing on a wooden shelf, a subject index laid out like a library catalogue, featured books, a quote on leather, and a cream "bookplate" with how it works
+- Book cards with covers, English and Arabic titles, price in orange, and "Last copy" or "Sold out" labels
+- Pages you read (About, Delivery, Privacy, Terms, the basket) sit on aged paper
+- Movement: the headline slides up line by line, the books stand up onto the shelf, the wood and covers drift at different speeds as you scroll, index lines draw themselves, cards fade up, and the quote lights up word by word
+- Pages cross-fade when you move between them (in browsers that support it)
 - If your device is set to "reduce motion", the movement is switched off
 - Effects are in one file (`fx.js`), so the shop still works if it fails
 
@@ -32,7 +33,7 @@ A clean, warm bookshop in the style of a normal online store: cream paper, dark 
 
 - HTML, CSS and vanilla JavaScript (no frameworks, no build step)
 - Hosted free on [Cloudflare Pages](https://pages.cloudflare.com/), deployed automatically from this repo on every push
-- [Google Fonts](https://fonts.google.com/): Libre Baskerville (headings), Source Sans 3 (body) and Mirza (Arabic)
+- [Google Fonts](https://fonts.google.com/): Libre Caslon Text (headings), Source Sans 3 (body) and Mirza (Arabic)
 - There are no stock photos; the hero uses your own book covers
 - Payments will use [Stripe Checkout](https://stripe.com/gb/payments/checkout) (not connected yet)
 
