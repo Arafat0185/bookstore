@@ -28,7 +28,7 @@ function trimCover(src) {
 }
 const heroBox = document.getElementById("hero-books");
 if (heroBox) {
-  Promise.all([7, 5, 39].map(id => BOOKS.find(b => b.id === id)).filter(Boolean).map(async b => {
+  Promise.all([5, 7, 39].map(id => BOOKS.find(b => b.id === id)).filter(Boolean).map(async b => {
     const c = b.image ? await trimCover(b.image) : null;
     const face = c ? `<img src="${c.url}" alt="Cover of ${esc(b.title)}">` : fallbackCover(b);
     return `<a class="hb" style="--ar:${c ? c.ar.toFixed(3) : .7}" href="book.html?id=${b.id}" aria-label="${esc(b.title)}"><div class="bk"><div class="bk-front">${face}</div><div class="bk-spine"></div><div class="bk-pages"></div><div class="bk-back"></div></div><i class="bk-shadow"></i></a>`;
